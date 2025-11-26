@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Pet Clinic</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/responsive.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container">
+            <div class="logo">🐾 Pet Clinic</div>
+            <a href="../index.html" class="btn-back">← Back to Home</a>
+        </div>
+    </nav>
+
+    <!-- Login Form -->
+    <main class="container auth-container">
+        <div class="auth-box">
+            <h1>Welcome Back</h1>
+            <p class="auth-subtitle">Log in to your Pet Clinic account</p>
+
+            <!-- Error Message -->
+            <div id="errorMessage" class="alert alert-danger hidden"></div>
+            <div id="successMessage" class="alert alert-success hidden"></div>
+
+            <form id="loginForm" class="auth-form">
+                <!-- Email Field -->
+                <div class="form-group">
+                    <label for="email">Email Address</label>
+                    <input 
+                        type="email" 
+                        id="email" 
+                        name="email" 
+                        placeholder="Enter your email"
+                        required
+                    >
+                    <span id="emailError" class="form-error"></span>
+                </div>
+
+                <!-- Password Field -->
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input 
+                        type="password" 
+                        id="password" 
+                        name="password" 
+                        placeholder="Enter your password"
+                        required
+                    >
+                    <span id="passwordError" class="form-error"></span>
+                </div>
+
+                <!-- Role Selection -->
+                <div class="form-group">
+                    <label for="role">I am a</label>
+                    <select id="role" name="role" required>
+                        <option value="">Select your role</option>
+                        <option value="pet_owner">Pet Owner</option>
+                        <option value="clinic_staff">Clinic Staff</option>
+                        <option value="admin">System Admin</option>
+                    </select>
+                    <span id="roleError" class="form-error"></span>
+                </div>
+
+                <!-- Remember Me -->
+                <div class="form-group checkbox">
+                    <input type="checkbox" id="remember" name="remember">
+                    <label for="remember">Remember me</label>
+                </div>
+
+                <!-- Submit Button -->
+                <button type="submit" class="btn btn-primary btn-full">
+                    <span id="btnText">Sign In</span>
+                    <span id="btnLoading" class="hidden">Loading...</span>
+                </button>
+            </form>
+
+            <!-- Links -->
+            <div class="auth-footer">
+                <a href="#" class="link">Forgot password?</a>
+                <span class="divider">•</span>
+                <a href="register.html" class="link">Create new account</a>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2025 Pet Clinic. All rights reserved.</p>
+    </footer>
+
+    <script src="../js/pages/login.js"></script>
+</body>
+</html>

@@ -1,0 +1,327 @@
+/* ---------------------------
+   GLOBAL STYLES
+---------------------------- */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Poppins", sans-serif;
+}
+
+body {
+    background: #fdfdfd;
+    color: #333;
+    line-height: 1.6;
+}
+
+/* Utility Container */
+.container {
+    width: 90%;
+    max-width: 1200px;
+    margin: auto;
+}
+
+/* ---------------------------
+   NAVBAR
+---------------------------- */
+.navbar {
+    background: #ffffffcc;
+    backdrop-filter: blur(10px);
+    padding: 15px 0;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+}
+
+.navbar .container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo {
+    font-size: 26px;
+    font-weight: 700;
+    color: #ff7ca3;
+}
+
+.nav-links {
+    display: flex;
+    gap: 25px;
+    list-style: none;
+}
+
+.nav-links a {
+    text-decoration: none;
+    font-weight: 500;
+    color: #444;
+    transition: 0.3s ease;
+}
+
+.nav-links a:hover {
+    color: #ff7ca3;
+}
+
+.btn-login,
+.btn-register {
+    padding: 8px 16px;
+    border-radius: 30px;
+    font-weight: 600;
+    background: #ff7ca3;
+    color: white !important;
+    transition: 0.3s;
+}
+
+.btn-register {
+    background: #75cfff;
+}
+
+.btn-login:hover,
+.btn-register:hover {
+    opacity: 0.8;
+}
+
+/* ---------------------------
+   HERO SECTION
+---------------------------- */
+.hero-section {
+    background: linear-gradient(135deg, #ff7ca3, #75cfff);
+    color: white;
+    text-align: center;
+    padding: 100px 20px;
+    border-bottom-left-radius: 60px;
+    border-bottom-right-radius: 60px;
+}
+
+.hero-section h1 {
+    font-size: 48px;
+    font-weight: 700;
+}
+
+.hero-section p {
+    margin: 15px auto 30px;
+    font-size: 18px;
+}
+
+.btn {
+    padding: 12px 30px;
+    border-radius: 40px;
+    font-weight: 600;
+    display: inline-block;
+    text-decoration: none;
+    transition: 0.3s;
+}
+
+.btn-primary {
+    background: white;
+    color: #ff4e8a;
+}
+
+.btn-primary:hover {
+    background: #ffe2ed;
+}
+
+/* ---------------------------
+   SERVICES
+---------------------------- */
+.services {
+    padding: 70px 0;
+}
+
+.services h2 {
+    text-align: center;
+    font-size: 32px;
+    margin-bottom: 40px;
+    color: #333;
+}
+
+.service-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 25px;
+}
+
+.service-card {
+    background: white;
+    padding: 30px;
+    text-align: center;
+    border-radius: 20px;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+    transition: 0.3s ease;
+}
+
+.service-card:hover {
+    transform: translateY(-8px);
+}
+
+.service-icon {
+    font-size: 40px;
+    margin-bottom: 15px;
+}
+
+/* ---------------------------
+   ABOUT SECTION
+---------------------------- */
+.about {
+    padding: 80px 0;
+    background: #fff5fa;
+    border-top: 2px solid #ffd4e5;
+}
+
+.about h2 {
+    text-align: center;
+    font-size: 32px;
+    margin-bottom: 25px;
+}
+
+.about p, .about ul {
+    max-width: 700px;
+    margin: auto;
+    text-align: center;
+    line-height: 1.7;
+}
+
+/* ---------------------------
+   CALL TO ACTION
+---------------------------- */
+.cta {
+    text-align: center;
+    padding: 80px 20px;
+    background: linear-gradient(135deg, #75cfff, #ff7ca3);
+    color: white;
+    border-radius: 40px;
+    margin: 70px auto;
+}
+
+.cta .btn-secondary {
+    background: #ffffff33;
+    color: white;
+}
+
+.cta .btn-secondary:hover {
+    background: #ffffff55;
+}
+
+/* ---------------------------
+   FOOTER
+---------------------------- */
+footer {
+    text-align: center;
+    padding: 25px 0;
+    margin-top: 50px;
+    background: #333;
+    color: white;
+}
+
+footer p {
+    font-size: 14px;
+    opacity: 0.8;
+}
+/* ---------------------------
+   AUTH PAGES (Login / Register)
+---------------------------- */
+
+.auth-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 60px 0;
+}
+
+.auth-box {
+    background: white;
+    width: 100%;
+    max-width: 450px;
+    padding: 40px;
+    border-radius: 25px;
+    box-shadow: 0 5px 25px rgba(0,0,0,0.1);
+    animation: fadeIn 0.6s ease;
+}
+
+.auth-box h1 {
+    text-align: center;
+    font-size: 32px;
+    color: #ff7ca3;
+}
+
+.auth-subtitle {
+    text-align: center;
+    margin-bottom: 30px;
+    color: #555;
+    font-size: 15px;
+}
+
+/* FORM GROUPS */
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    font-weight: 600;
+    display: block;
+    margin-bottom: 6px;
+    color: #444;
+}
+
+.form-group input,
+.form-group select {
+    width: 100%;
+    padding: 12px 15px;
+    border-radius: 12px;
+    border: 2px solid #e8e8e8;
+    transition: 0.3s ease;
+    font-size: 15px;
+}
+
+.form-group input:focus,
+.form-group select:focus {
+    border-color: #ff7ca3;
+    box-shadow: 0 0 0 4px #ff7ca33a;
+    outline: none;
+}
+
+/* CHECKBOX */
+.form-group.checkbox {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.form-group.checkbox label {
+    margin: 0;
+}
+
+/* BUTTON */
+.btn-full {
+    width: 100%;
+    padding: 14px;
+    border-radius: 40px;
+    background: linear-gradient(135deg, #ff7ca3, #75cfff);
+    color: white;
+    font-weight: 600;
+    font-size: 16px;
+    border: none;
+    cursor: pointer;
+    transition: 0.3s ease;
+}
+
+.btn-full:hover {
+    opacity: 0.9;
+}
+
+/* LINKS */
+.auth-footer {
+    margin-top: 30px;
+    text-align: center;
+}
+
+.auth-footer .link {
+    color: #ff7ca3;
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.auth-footer .link:hover {
+    text-decoration: underline;
+}
