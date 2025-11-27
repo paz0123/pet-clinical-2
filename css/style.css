@@ -44,6 +44,7 @@ body {
     font-size: 26px;
     font-weight: 700;
     color: #ff7ca3;
+    border: 1px solid blueviolet;
 }
 
 .nav-links {
@@ -86,6 +87,8 @@ body {
    HERO SECTION
 ---------------------------- */
 .hero-section {
+    display: flex;
+    justify-content: center;
     background: linear-gradient(135deg, #ff7ca3, #75cfff);
     color: white;
     text-align: center;
@@ -93,7 +96,14 @@ body {
     border-bottom-left-radius: 60px;
     border-bottom-right-radius: 60px;
 }
-
+img{
+    width: 400px;
+    height: inherit;
+    border-radius: 50px;
+    border: 2px solid white;
+    box-shadow: #75cfff;
+    
+}
 .hero-section h1 {
     font-size: 48px;
     font-weight: 700;
