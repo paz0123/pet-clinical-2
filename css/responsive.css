@@ -1,0 +1,116 @@
+/* -----------------------------
+   GLOBAL RESPONSIVE SETTINGS
+------------------------------ */
+
+/* Extra Small Phones (below 360px) */
+@media (max-width: 360px) {
+    body {
+        font-size: 14px;
+    }
+
+    .logo {
+        font-size: 20px;
+    }
+
+    .btn, .btn-full {
+        padding: 10px 16px;
+        font-size: 14px;
+    }
+}
+
+/* Phones (max-width: 480px) */
+@media (max-width: 480px) {
+    /* NAVBAR */
+    .navbar .container {
+        flex-direction: column;
+        gap: 10px;
+        text-align: center;
+    }
+
+    .btn-back {
+        width: 100%;
+        text-align: center;
+        padding: 10px 18px;
+    }
+
+    /* HERO */
+    .hero-section h1 {
+        font-size: 30px;
+    }
+
+    .hero-section p {
+        font-size: 15px;
+    }
+
+    /* SERVICES GRID */
+    .service-grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+
+    /* AUTH FORMS */
+    .auth-box {
+        padding: 25px;
+        border-radius: 20px;
+    }
+
+    .auth-box h1 {
+        font-size: 26px;
+    }
+
+    .form-group input,
+    .form-group select {
+        padding: 10px;
+    }
+
+    .auth-footer {
+        font-size: 14px;
+    }
+
+    /* BUTTON */
+    .btn-full {
+        padding: 12px;
+    }
+}
+
+/* Tablets (max-width: 768px) */
+@media (max-width: 768px) {
+    .nav-links {
+        display: none; /* hide full menu on small screens */
+    }
+
+    /* You can later replace this with hamburger menu JS */
+    
+    .hero-section {
+        padding: 70px 20px;
+    }
+
+    .hero-section h1 {
+        font-size: 38px;
+    }
+
+    .services h2,
+    .about h2 {
+        font-size: 28px;
+    }
+
+    .container {
+        width: 92%;
+    }
+
+    /* AUTH PAGE CENTER */
+    .auth-container {
+        padding: 40px 0;
+    }
+}
+
+/* Small Laptops (max-width: 1024px) */
+@media (max-width: 1024px) {
+    .hero-section {
+        padding: 90px 20px;
+    }
+
+    .service-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}

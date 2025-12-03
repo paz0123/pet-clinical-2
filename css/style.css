@@ -40,11 +40,11 @@ body {
     align-items: center;
 }
 
-.logo {
-    font-size: 26px;
-    font-weight: 700;
-    color: #ff7ca3;
+.logo img {
+    width: 120px;
     border: 1px solid blueviolet;
+    padding:  0 24px;
+    margin:  0 20px;
 }
 
 .nav-links {
@@ -183,6 +183,7 @@ img{
     text-align: center;
     font-size: 32px;
     margin-bottom: 25px;
+    text-decoration: underline;
 }
 
 .about p, .about ul {
@@ -190,6 +191,15 @@ img{
     margin: auto;
     text-align: center;
     line-height: 1.7;
+    list-style:circle ;
+    border: 2px solid purple;
+}
+p strong{
+    font-size: 30px;
+    font-family:  cursive;
+    text-decoration: underline green;
+    color: green;
+    
 }
 
 /* ---------------------------
