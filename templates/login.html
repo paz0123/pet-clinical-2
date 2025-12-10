@@ -1,18 +1,18 @@
-<!DOCTYPE html>
+<!DOCTYPE html> 
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login - Pet Clinic</title>
-    <link rel="stylesheet" href="../css/style.css">
-    <link rel="stylesheet" href="../css/responsive.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/responsive.css') }}">
 </head>
 <body>
     <!-- Navigation -->
     <nav class="navbar">
         <div class="container">
             <div class="logo">🐾 Pet Clinic</div>
-            <a href="../index.html" class="btn-back">← Back to Home</a>
+            <a href="{{ url_for('index') }}" class="btn-back">← Back to Home</a>
         </div>
     </nav>
 
@@ -82,7 +82,7 @@
             <div class="auth-footer">
                 <a href="#" class="link">Forgot password?</a>
                 <span class="divider">•</span>
-                <a href="register.html" class="link">Create new account</a>
+                <a href="{{ url_for('register') }}" class="link">Create new account</a>
             </div>
         </div>
     </main>
@@ -92,6 +92,6 @@
         <p>&copy; 2025 Pet Clinic. All rights reserved.</p>
     </footer>
 
-    <script src="../js/pages/login.js"></script>
+    <script src="{{ url_for('static', filename='js/pages/login.js') }}"></script>
 </body>
 </html>

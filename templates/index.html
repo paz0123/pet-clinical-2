@@ -26,8 +26,8 @@
                 <li><a href="#services">Services</a></li>
                 <li><a href="#about">About Us</a></li>
                 <!-- -->
-                <li><a href="pages/login.html" class="btn-login">Login</a></li>
-                <li><a href="pages/register.html" class="btn-register">Sign Up</a></li>
+                <li><a href="{{ url_for('login') }}" class="btn-login">Login</a></li>
+                <li><a href="{{ url_for('register') }}" class="btn-register">Sign Up</a></li>
             </ul>
         </div>
     </nav>
@@ -37,7 +37,7 @@
         <div class="container">
             <h1>Welcome To <br> PAVIDER Pet Clinic</h1>
             <p>Professional Healthcare for Your Beloved Pets</p>
-            <a href="pages/register.html" class="btn btn-primary">Get Started Today</a>
+            <a href="{{ url_for('register') }}" class="btn btn-primary">Get Started Today</a>
         </div>
         <div>
             <img src="{{ url_for('static', filename='assets/images/pet.jpg') }}" alt="pet with doctors">
@@ -94,8 +94,8 @@
             <div class="container">
                 <h2>Ready to Get Started?</h2>
                 <p>Create your account today and start managing your pet's healthcare.</p>
-                <a href="pages/register.html" class="btn btn-primary">Create Account</a>
-                <a href="pages/login.html" class="btn btn-secondary">Already Have an Account?</a>
+                <a href="{{ url_for('register') }}" class="btn btn-primary">Create Account</a>
+                <a href="{{ url_for('login') }}" class="btn btn-secondary">Already Have an Account?</a>
             </div>
         </section>
     </main>
