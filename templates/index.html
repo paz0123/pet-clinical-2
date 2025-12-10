@@ -4,8 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pet Clinic - Quality Care for Your Pets</title>
-    <link rel="stylesheet" href="css/style.css">
-    <link rel="stylesheet" href="css/responsive.css">
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/responsive.css') }}">
+
+    <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400..700&family=Open+Sans:ital,wght@0,300..800;1,300..800&family=Playwrite+NZ+Guides&family=Playwrite+US+Trad+Guides&display=swap" rel="stylesheet">
@@ -15,12 +19,13 @@
     <nav class="navbar">
         <div class="container">
             <div class="logo">
-                <img src="assets/images/logo.png" alt="logo">
+                <img src="{{ url_for('static', filename='assets/images/logo.png') }}" alt="logo">
             </div>
             <ul class="nav-links">
-                <li><a href="index.html">Home</a></li>
+                <li><a href="{{ url_for('index') }}">Home</a></li>
                 <li><a href="#services">Services</a></li>
                 <li><a href="#about">About Us</a></li>
+                <!-- -->
                 <li><a href="pages/login.html" class="btn-login">Login</a></li>
                 <li><a href="pages/register.html" class="btn-register">Sign Up</a></li>
             </ul>
@@ -35,7 +40,7 @@
             <a href="pages/register.html" class="btn btn-primary">Get Started Today</a>
         </div>
         <div>
-            <img src="assets/images/pet.jpg" alt="pet with doctors" width="">
+            <img src="{{ url_for('static', filename='assets/images/pet.jpg') }}" alt="pet with doctors">
         </div>
     </header>
 
@@ -102,6 +107,7 @@
         </div>
     </footer>
 
-    <script src="js/main.js"></script>
+    <!-- JS -->
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
 </body>
 </html>
