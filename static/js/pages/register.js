@@ -4,70 +4,45 @@ document.addEventListener('DOMContentLoaded', function() {
     const registerForm = document.getElementById('registerForm');
     
     if (registerForm) {
-        registerForm.addEventListener('submit', handleRegister);
+        registerForm.addEventListener('submit', function(e) {
+            // On bloque d'abord la soumission
+            e.preventDefault();
+
+            // Get form values
+            const fullName = document.getElementById('fullName').value.trim();
+            const email = document.getElementById('email').value.trim();
+            const password = document.getElementById('password').value;
+            const confirmPassword = document.getElementById('confirmPassword').value;
+            const userRole = document.getElementById('userRole').value;
+            const termsAccepted = document.getElementById('terms').checked;
+
+            // Clear previous errors
+            clearAllErrors();
+            hideMessages();
+
+            // Validate inputs côté front
+            const isValid = validateRegisterForm(
+                fullName,
+                email,
+                password,
+                confirmPassword,
+                userRole,
+                termsAccepted
+            );
+
+            // Si invalide → on affiche les erreurs et on s'arrête là
+            if (!isValid) {
+                showErrorMessage('Please correct the errors in the form.');
+                return;
+            }
+
+            // Si tout est OK côté front → on laisse partir le formulaire vers Flask
+            e.target.submit();
+        });
     }
 });
 
-async function handleRegister(e) {
-    e.preventDefault();
-
-    // Get form values
-    const fullName = document.getElementById('fullName').value.trim();
-    const email = document.getElementById('email').value.trim();
-    const password = document.getElementById('password').value;
-    const confirmPassword = document.getElementById('confirmPassword').value;
-    const userRole = document.getElementById('userRole').value;
-    const termsAccepted = document.getElementById('terms').checked;
-
-    // Clear previous errors
-    clearAllErrors();
-
-    // Validate inputs
-    if (!validateRegisterForm(fullName, email, password, confirmPassword, userRole, termsAccepted)) {
-        return;
-    }
-
-    // Show loading state
-    showLoadingState(true);
-
-    try {
-        // Call backend API
-        const response = await fetch('/api/auth/register', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                fullName: fullName,
-                email: email,
-                password: password,
-                userRole: userRole
-            })
-        });
-
-        const data = await response.json();
-
-        if (response.ok) {
-            showSuccessMessage('Account created successfully! Redirecting to login...');
-
-            // Redirect after 2 seconds
-            setTimeout(() => {
-                window.location.href = 'login.html';
-            }, 2000);
-
-        } else {
-            showErrorMessage(data.message || 'Registration failed. Please try again.');
-        }
-
-    } catch (error) {
-        console.error('Registration error:', error);
-        showErrorMessage('An error occurred. Please try again later.');
-    } finally {
-        showLoadingState(false);
-    }
-}
-
-// Validation function
+// Validation function (inchangée)
 function validateRegisterForm(fullName, email, password, confirmPassword, userRole, termsAccepted) {
     let isValid = true;
 
@@ -143,22 +118,35 @@ function clearAllErrors() {
     });
 }
 
+// Helper: Hide both global messages
+function hideMessages() {
+    const errorDiv = document.getElementById('errorMessage');
+    const successDiv = document.getElementById('successMessage');
+
+    if (errorDiv) {
+        errorDiv.classList.add('hidden');
+        errorDiv.textContent = '';
+    }
+    if (successDiv) {
+        successDiv.classList.add('hidden');
+        successDiv.textContent = '';
+    }
+}
+
 // Helper: Show error message
 function showErrorMessage(message) {
     const errorDiv = document.getElementById('errorMessage');
-    errorDiv.textContent = message;
-    errorDiv.classList.remove('hidden');
+    if (errorDiv) {
+        errorDiv.textContent = message;
+        errorDiv.classList.remove('hidden');
+    }
 }
 
-// Helper: Show success message
+// Helper: Show success message (tu peux le garder si tu veux)
 function showSuccessMessage(message) {
     const successDiv = document.getElementById('successMessage');
-    successDiv.textContent = message;
-    successDiv.classList.remove('hidden');
-}
-
-// Helper: Show/hide loading state
-function showLoadingState(isLoading) {
-    document.getElementById('btnText').classList.toggle('hidden', isLoading);
-    document.getElementById('btnLoading').classList.toggle('hidden', !isLoading);
+    if (successDiv) {
+        successDiv.textContent = message;
+        successDiv.classList.remove('hidden');
+    }
 }

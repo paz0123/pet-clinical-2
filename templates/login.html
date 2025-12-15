@@ -23,10 +23,14 @@
             <p class="auth-subtitle">Log in to your Pet Clinic account</p>
 
             <!-- Error Message -->
-            <div id="errorMessage" class="alert alert-danger hidden"></div>
-            <div id="successMessage" class="alert alert-success hidden"></div>
+            <div id="errorMessage" class="alert alert-danger {% if not error_message %}hidden{% endif %}">
+                {{ error_message or "" }}
+            </div>
+            <div id="successMessage" class="alert alert-success {% if not success_message %}hidden{% endif %}">
+                {{ success_message or "" }}
+            </div>
 
-            <form id="loginForm" class="auth-form">
+            <form id="loginForm" class="auth-form" method="post" action="{{ url_for('login') }}">
                 <!-- Email Field -->
                 <div class="form-group">
                     <label for="email">Email Address</label>
@@ -37,7 +41,9 @@
                         placeholder="Enter your email"
                         required
                     >
-                    <span id="emailError" class="form-error"></span>
+                    <span id="emailError" class="form-error">
+                        {{ errors.get('email','') if errors is defined else '' }}
+                    </span>
                 </div>
 
                 <!-- Password Field -->
@@ -50,7 +56,9 @@
                         placeholder="Enter your password"
                         required
                     >
-                    <span id="passwordError" class="form-error"></span>
+                    <span id="passwordError" class="form-error">
+                        {{ errors.get('password','') if errors is defined else '' }}
+                    </span>
                 </div>
 
                 <!-- Role Selection -->
@@ -62,7 +70,9 @@
                         <option value="clinic_staff">Clinic Staff</option>
                         <option value="admin">System Admin</option>
                     </select>
-                    <span id="roleError" class="form-error"></span>
+                    <span id="roleError" class="form-error">
+                        {{ errors.get('role','') if errors is defined else '' }}
+                    </span>
                 </div>
 
                 <!-- Remember Me -->
@@ -95,3 +105,4 @@
     <script src="{{ url_for('static', filename='js/pages/login.js') }}"></script>
 </body>
 </html>
+

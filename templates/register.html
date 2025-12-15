@@ -23,10 +23,14 @@
             <p class="auth-subtitle">Join Pet Clinic and manage your pet's health</p>
 
             <!-- Error Message -->
-            <div id="errorMessage" class="alert alert-danger hidden"></div>
-            <div id="successMessage" class="alert alert-success hidden"></div>
+            <div id="errorMessage" class="alert alert-danger {% if not error_message %}hidden{% endif %}">
+                {{ error_message or "" }}
+            </div>
+            <div id="successMessage" class="alert alert-success {% if not success_message %}hidden{% endif %}">
+                {{ success_message or "" }}
+            </div>
 
-            <form id="registerForm" class="auth-form">
+            <form id="registerForm" class="auth-form" method="post" action="{{ url_for('register') }}">
                 <!-- Full Name -->
                 <div class="form-group">
                     <label for="fullName">Full Name</label>
@@ -37,7 +41,9 @@
                         placeholder="Enter your full name"
                         required
                     >
-                    <span id="fullNameError" class="form-error"></span>
+                    <span id="fullNameError" class="form-error">
+                        {{ errors.get('fullName','') if errors is defined else '' }}
+                    </span>
                 </div>
 
                 <!-- Email -->
@@ -50,7 +56,9 @@
                         placeholder="Enter your email"
                         required
                     >
-                    <span id="emailError" class="form-error"></span>
+                    <span id="emailError" class="form-error">
+                        {{ errors.get('email','') if errors is defined else '' }}
+                    </span>
                 </div>
 
                 <!-- Password -->
@@ -63,7 +71,9 @@
                         placeholder="At least 8 characters"
                         required
                     >
-                    <span id="passwordError" class="form-error"></span>
+                    <span id="passwordError" class="form-error">
+                        {{ errors.get('password','') if errors is defined else '' }}
+                    </span>
                     <small>Password must be at least 8 characters long</small>
                 </div>
 
@@ -77,7 +87,9 @@
                         placeholder="Re-enter your password"
                         required
                     >
-                    <span id="confirmPasswordError" class="form-error"></span>
+                    <span id="confirmPasswordError" class="form-error">
+                        {{ errors.get('confirmPassword','') if errors is defined else '' }}
+                    </span>
                 </div>
 
                 <!-- Role Selection -->
@@ -88,7 +100,9 @@
                         <option value="pet_owner">Pet Owner</option>
                         <option value="clinic_staff">Clinic Staff (requires approval)</option>
                     </select>
-                    <span id="userRoleError" class="form-error"></span>
+                    <span id="userRoleError" class="form-error">
+                        {{ errors.get('userRole','') if errors is defined else '' }}
+                    </span>
                 </div>
 
                 <!-- Terms & Conditions -->
@@ -106,8 +120,7 @@
 
             <!-- Login Link -->
             <div class="auth-footer">
-                Already have an account? 
-                <a href="{{ url_for('login') }}" class="link">Sign in here</a>
+                Already have an account? <a href="{{ url_for('login') }}" class="link">Sign in here</a>
             </div>
         </div>
     </main>
@@ -120,3 +133,4 @@
     <script src="{{ url_for('static', filename='js/pages/register.js') }}"></script>
 </body>
 </html>
+

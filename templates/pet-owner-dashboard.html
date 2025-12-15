@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pet Owner Dashboard - Pet Clinic</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/responsive.css') }}">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container">
+            <div class="logo">🐾 Pet Clinic</div>
+            <div class="nav-right">
+                <span class="user-badge">
+                    Logged in as: <strong>{{ user_name or 'Pet Owner' }}</strong>
+                </span>
+                <a href="{{ url_for('logout') }}" class="btn-back">Logout</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Dashboard Content -->
+    <main class="container dashboard-container">
+        <header class="dashboard-header">
+            <h1>Welcome, {{ user_name or 'Pet Owner' }} 👋</h1>
+            <p class="dashboard-subtitle">
+                Manage your pets, appointments and medical history from one place.
+            </p>
+        </header>
+
+        <!-- Quick Actions -->
+        <section class="dashboard-section">
+            <h2>Quick Actions</h2>
+            <div class="dashboard-grid">
+                <div class="dashboard-card">
+                    <h3>My Pets</h3>
+                    <p>View and manage your pet profiles, update basic info and add new pets.</p>
+                    <button class="btn btn-primary btn-small">View Pets</button>
+                </div>
+                <div class="dashboard-card">
+                    <h3>Book Appointment</h3>
+                    <p>Schedule a visit with the clinic staff for checkups, vaccines or emergencies.</p>
+                    <a href="{{ url_for('book_appointment') }}" class="btn btn-primary btn-small">Book Now</a>
+                </div>
+                <div class="dashboard-card">
+                    <h3>Medical History</h3>
+                    <p>Review past visits, prescriptions and treatments for each of your pets.</p>
+                    <button class="btn btn-secondary btn-small">View Records</button>
+                </div>
+                <div class="dashboard-card">
+                    <h3>Invoices & Payments</h3>
+                    <p>Check your previous invoices and payment history for all your visits.</p>
+                    <button class="btn btn-secondary btn-small">View Invoices</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Upcoming Appointments -->
+        <section class="dashboard-section">
+            <h2>Upcoming Appointments</h2>
+            <div class="dashboard-table-wrapper">
+                <table class="dashboard-table">
+                    <thead>
+                        <tr>
+                            <th>Pet</th>
+                            <th>Date</th>
+                            <th>Time</th>
+                            <th>Reason</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% if appointments and appointments|length > 0 %}
+                            {% for appt in appointments %}
+                            <tr>
+                                <td>{{ appt.pet_name }}</td>
+                                <td>{{ appt.appointment_date }}</td>
+                                <td>{{ appt.appointment_time }}</td>
+                                <td>{{ appt.reason or '-' }}</td>
+                                <td>
+                                    <span class="badge {{ appt.badge_class }}">
+                                        {{ appt.status_label }}
+                                    </span>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        {% else %}
+                            <tr>
+                                <td colspan="5">No upcoming appointments yet.</td>
+                            </tr>
+                        {% endif %}
+                    </tbody>
+                </table>
+                <p class="table-note">These entries are static examples for now. Later, they'll come from the database.</p>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2025 Pet Clinic. All rights reserved.</p>
+    </footer>
+</body>
+</html>

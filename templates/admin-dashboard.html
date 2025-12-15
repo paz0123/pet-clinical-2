@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - Pet Clinic</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/responsive.css') }}">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container">
+            <div class="logo">🐾 Pet Clinic</div>
+            <div class="nav-right">
+                <span class="user-badge">
+                    Admin: <strong>{{ user_name or 'System Admin' }}</strong>
+                </span>
+                <a href="{{ url_for('logout') }}" class="btn-back">Logout</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Dashboard Content -->
+    <main class="container dashboard-container">
+        <header class="dashboard-header">
+            <h1>System Admin Dashboard</h1>
+            <p class="dashboard-subtitle">
+                Manage users, roles and high-level reporting for the Pet Clinic system.
+            </p>
+        </header>
+
+        <!-- Overview Metrics -->
+        <section class="dashboard-section">
+            <h2>Overview</h2>
+            <div class="dashboard-grid">
+                <div class="dashboard-card">
+                    <h3>Total Pet Owners</h3>
+                    <div class="metric-value">{{ total_pet_owners }}</div>
+                    <p class="metric-label">Active pet owner accounts</p>
+                </div>
+                <div class="dashboard-card">
+                    <h3>Clinic Staff</h3>
+                    <div class="metric-value">{{ approved_staff }}</div>
+                    <p class="metric-label">Approved staff members</p>
+                </div>
+                <div class="dashboard-card">
+                    <h3>Pending Staff</h3>
+                    <div class="metric-value">{{ pending_staff_count }}</div>
+                    <p class="metric-label">Accounts waiting for approval</p>
+                </div>
+                <div class="dashboard-card">
+                    <h3>Monthly Revenue</h3>
+                    <div class="metric-value">$ {{ monthly_revenue }}</div>
+                    <p class="metric-label">Invoices recorded this month</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Pending Staff Approvals -->
+        <section class="dashboard-section">
+            <h2>Pending Clinic Staff Approvals</h2>
+            <div class="dashboard-table-wrapper">
+                <table class="dashboard-table">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Requested At</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% if pending_staff and pending_staff|length > 0 %}
+                            {% for staff in pending_staff %}
+                            <tr>
+                                <td>{{ staff.full_name }}</td>
+                                <td>{{ staff.email }}</td>
+                                <td>{{ staff.created_at }}</td>
+                                <td>
+                                    <span class="badge badge-pending">Pending</span>
+                                </td>
+                                <td>
+                                    <form method="post" action="{{ url_for('approve_staff', user_id=staff.id) }}" style="display:inline-block;">
+                                        <button type="submit" class="btn-table btn-small">Approve</button>
+                                    </form>
+                                    <form method="post" action="{{ url_for('reject_staff', user_id=staff.id) }}" style="display:inline-block; margin-left: 0.25rem;">
+                                        <button type="submit" class="btn-table btn-small">Reject</button>
+                                    </form>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        {% else %}
+                            <tr>
+                                <td colspan="5">No pending staff approvals.</td>
+                            </tr>
+                        {% endif %}
+                    </tbody>
+                </table>
+                <p class="table-note">
+                    These entries are loaded from the database. Actions will update staff approval status.
+                </p>
+            </div>
+        </section>
+
+        <!-- Roles & Reporting -->
+        <section class="dashboard-section">
+            <h2>Roles & Reporting</h2>
+            <div class="dashboard-grid">
+                <div class="dashboard-card">
+                    <h3>Manage Roles</h3>
+                    <p>
+                        Promote or demote users between Pet Owner, Clinic Staff and Admin roles.
+                        Ensure correct permissions for each account.
+                    </p>
+                    <button class="btn btn-secondary btn-small" disabled>
+                        Open Users List (coming soon)
+                    </button>
+                </div>
+                <div class="dashboard-card">
+                    <h3>Financial Reports</h3>
+                    <p>
+                        Review monthly and yearly financial reports, including invoices, payments
+                        and outstanding balances.
+                    </p>
+                    <button class="btn btn-secondary btn-small" disabled>
+                        View Reports (coming soon)
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Notifications -->
+        <section class="dashboard-section">
+            <h2>Notifications & Reminders</h2>
+            <ul class="notification-list">
+                <li>{{ pending_staff_count }} clinic staff accounts awaiting admin approval.</li>
+                <li>Financial reporting and detailed analytics can be added later.</li>
+            </ul>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2025 Pet Clinic. All rights reserved.</p>
+    </footer>
+</body>
+</html>

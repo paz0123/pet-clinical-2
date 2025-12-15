@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book Appointment - Pet Clinic</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/responsive.css') }}">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container">
+            <div class="logo">🐾 Pet Clinic</div>
+            <div class="nav-right">
+                <span class="user-badge">
+                    Pet Owner: <strong>{{ user_name or 'Pet Owner' }}</strong>
+                </span>
+                <a href="{{ url_for('pet_owner_dashboard') }}" class="btn-back">← Back to Dashboard</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Booking Form -->
+    <main class="container auth-container">
+        <div class="auth-box">
+            <h1>Book an Appointment</h1>
+            <p class="auth-subtitle">
+                Schedule a visit for your pet with our clinic staff.
+            </p>
+
+            <!-- Messages globaux -->
+            <div id="errorMessage" class="alert alert-danger {% if not error_message %}hidden{% endif %}">
+                {{ error_message or "" }}
+            </div>
+            <div id="successMessage" class="alert alert-success {% if not success_message %}hidden{% endif %}">
+                {{ success_message or "" }}
+            </div>
+
+            <form id="bookAppointmentForm" class="auth-form" method="post" action="{{ url_for('book_appointment') }}">
+                <!-- Pet Name -->
+                <div class="form-group">
+                    <label for="pet_name">Pet Name</label>
+                    <input
+                        type="text"
+                        id="pet_name"
+                        name="pet_name"
+                        placeholder="Enter your pet's name"
+                        value="{{ form_data.get('pet_name', '') if form_data else '' }}"
+                        required
+                    >
+                    <span id="pet_nameError" class="form-error">
+                        {{ errors.get('pet_name','') if errors is defined else '' }}
+                    </span>
+                </div>
+
+                <!-- Date -->
+                <div class="form-group">
+                    <label for="appointment_date">Appointment Date</label>
+                    <input
+                        type="date"
+                        id="appointment_date"
+                        name="appointment_date"
+                        min="{{ today_str }}"
+                        value="{{ form_data.get('appointment_date', '') if form_data else '' }}"
+                        required
+                    >
+                    <span id="appointment_dateError" class="form-error">
+                        {{ errors.get('appointment_date','') if errors is defined else '' }}
+                    </span>
+                </div>
+
+                <!-- Time -->
+                <div class="form-group">
+                    <label for="appointment_time">Appointment Time</label>
+                    <input
+                        type="time"
+                        id="appointment_time"
+                        name="appointment_time"
+                        value="{{ form_data.get('appointment_time', '') if form_data else '' }}"
+                        required
+                    >
+                    <span id="appointment_timeError" class="form-error">
+                        {{ errors.get('appointment_time','') if errors is defined else '' }}
+                    </span>
+                </div>
+
+                <!-- Reason -->
+                <div class="form-group">
+                    <label for="reason">Reason (optional)</label>
+                    <textarea
+                        id="reason"
+                        name="reason"
+                        rows="3"
+                        placeholder="Vaccination, checkup, follow-up, emergency..."
+                    >{{ form_data.get('reason', '') if form_data else '' }}</textarea>
+                    <span id="reasonError" class="form-error">
+                        {{ errors.get('reason','') if errors is defined else '' }}
+                    </span>
+                </div>
+
+                <!-- Submit -->
+                <button type="submit" class="btn btn-primary btn-full">
+                    <span id="btnText">Book Appointment</span>
+                    <span id="btnLoading" class="hidden">Booking...</span>
+                </button>
+            </form>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2025 Pet Clinic. All rights reserved.</p>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clinic Staff Dashboard - Pet Clinic</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/responsive.css') }}">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container">
+            <div class="logo">🐾 Pet Clinic</div>
+            <div class="nav-right">
+                <span class="user-badge">
+                    Staff: <strong>{{ user_name or 'Clinic Staff' }}</strong>
+                </span>
+                <a href="{{ url_for('logout') }}" class="btn-back">Logout</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Dashboard Content -->
+    <main class="container dashboard-container">
+        <header class="dashboard-header">
+            <h1>Clinic Staff Dashboard</h1>
+            <p class="dashboard-subtitle">
+                Manage appointments, medical records and prescriptions for pet owners.
+            </p>
+        </header>
+
+        <!-- Quick Actions -->
+        <section class="dashboard-section">
+            <h2>Quick Actions</h2>
+            <div class="dashboard-grid">
+                <div class="dashboard-card">
+                    <h3>Today's Appointments</h3>
+                    <p>See all pets scheduled for today and prepare for their visit.</p>
+                    <button class="btn btn-primary btn-small">View Today</button>
+                </div>
+                <div class="dashboard-card">
+                    <h3>Manage Schedule</h3>
+                    <p>Update availability, confirm or reschedule appointments.</p>
+                    <button class="btn btn-primary btn-small">Manage Calendar</button>
+                </div>
+                <div class="dashboard-card">
+                    <h3>Medical Records</h3>
+                    <p>Search and update medical records for pets after each visit.</p>
+                    <button class="btn btn-secondary btn-small">Search Records</button>
+                </div>
+                <div class="dashboard-card">
+                    <h3>Digital Prescriptions</h3>
+                    <p>Create and update prescriptions that pet owners can access online.</p>
+                    <button class="btn btn-secondary btn-small">Issue Prescription</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Today's Appointments Table -->
+        <section class="dashboard-section">
+            <h2>Today's Appointments</h2>
+            <div class="dashboard-table-wrapper">
+                <table class="dashboard-table">
+                    <thead>
+                        <tr>
+                            <th>Time</th>
+                            <th>Pet</th>
+                            <th>Owner</th>
+                            <th>Reason</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% if today_appointments and today_appointments|length > 0 %}
+                            {% for appt in today_appointments %}
+                            <tr>
+                                <td>{{ appt.appointment_time }}</td>
+                                <td>{{ appt.pet_name }}</td>
+                                <td>{{ appt.owner_name }}</td>
+                                <td>{{ appt.reason or '-' }}</td>
+                                <td>
+                                    <span class="badge {{ appt.badge_class }}">
+                                        {{ appt.status_label }}
+                                    </span>
+                                </td>
+                                <td>
+                                    <!-- Boutons encore décoratifs pour l’instant -->
+                                    <button class="btn-table btn-small">Confirm</button>
+                                    <button class="btn-table btn-small">Reschedule</button>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        {% else %}
+                            <tr>
+                                <td colspan="6">No appointments scheduled for today ({{ today_str }}).</td>
+                            </tr>
+                        {% endif %}
+                    </tbody>
+                </table>
+                <p class="table-note">These entries are static examples. Later they will come from the database.</p>
+            </div>
+        </section>
+
+        <!-- Pending Approvals or Reminders -->
+        <section class="dashboard-section">
+            <h2>Reminders & Notifications</h2>
+            <ul class="notification-list">
+                <li>3 vaccination reminders to send today.</li>
+                <li>1 prescription renewal pending confirmation.</li>
+                <li>2 clinic staff accounts awaiting admin approval.</li>
+            </ul>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2025 Pet Clinic. All rights reserved.</p>
+    </footer>
+</body>
+</html>
