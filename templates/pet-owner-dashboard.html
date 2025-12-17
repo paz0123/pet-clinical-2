@@ -37,7 +37,7 @@
                 <div class="dashboard-card">
                     <h3>My Pets</h3>
                     <p>View and manage your pet profiles, update basic info and add new pets.</p>
-                    <button class="btn btn-primary btn-small">View Pets</button>
+                    <a href="{{ url_for('my_pets') }}" class="btn btn-primary btn-small">Manage Pets</a>
                 </div>
                 <div class="dashboard-card">
                     <h3>Book Appointment</h3>
@@ -47,12 +47,12 @@
                 <div class="dashboard-card">
                     <h3>Medical History</h3>
                     <p>Review past visits, prescriptions and treatments for each of your pets.</p>
-                    <button class="btn btn-secondary btn-small">View Records</button>
+                    <button class="btn btn-secondary btn-small" disabled>Coming soon</button>
                 </div>
                 <div class="dashboard-card">
                     <h3>Invoices & Payments</h3>
                     <p>Check your previous invoices and payment history for all your visits.</p>
-                    <button class="btn btn-secondary btn-small">View Invoices</button>
+                    <a href="{{ url_for('owner_invoices') }}" class="btn btn-secondary btn-small">View Invoices</a>
                 </div>
             </div>
         </section>
@@ -60,6 +60,7 @@
         <!-- Upcoming Appointments -->
         <section class="dashboard-section">
             <h2>Upcoming Appointments</h2>
+            <p class="dashboard-subtitle">Today: {{ today_str }}</p>
             <div class="dashboard-table-wrapper">
                 <table class="dashboard-table">
                     <thead>
@@ -72,9 +73,9 @@
                         </tr>
                     </thead>
                     <tbody>
-                        {% if appointments and appointments|length > 0 %}
-                            {% for appt in appointments %}
-                            <tr>
+                        {% if upcoming_appointments and upcoming_appointments|length > 0 %}
+                            {% for appt in upcoming_appointments %}
+                            <tr class="{% if appt.status == 'cancelled' %}appt-cancelled{% elif appt.status == 'rescheduled' %}appt-rescheduled{% endif %}">
                                 <td>{{ appt.pet_name }}</td>
                                 <td>{{ appt.appointment_date }}</td>
                                 <td>{{ appt.appointment_time }}</td>
@@ -93,7 +94,51 @@
                         {% endif %}
                     </tbody>
                 </table>
-                <p class="table-note">These entries are static examples for now. Later, they'll come from the database.</p>
+                <p class="table-note">
+                    When you book an appointment, it will appear here with its current status.
+                </p>
+            </div>
+        </section>
+
+        <!-- Past Appointments -->
+        <section class="dashboard-section">
+            <h2>Past Appointments</h2>
+            <div class="dashboard-table-wrapper">
+                <table class="dashboard-table">
+                    <thead>
+                        <tr>
+                            <th>Pet</th>
+                            <th>Date</th>
+                            <th>Time</th>
+                            <th>Reason</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% if past_appointments and past_appointments|length > 0 %}
+                            {% for appt in past_appointments %}
+                            <tr class="{% if appt.status == 'cancelled' %}appt-cancelled{% elif appt.status == 'rescheduled' %}appt-rescheduled{% endif %}">
+                                <td>{{ appt.pet_name }}</td>
+                                <td>{{ appt.appointment_date }}</td>
+                                <td>{{ appt.appointment_time }}</td>
+                                <td>{{ appt.reason or '-' }}</td>
+                                <td>
+                                    <span class="badge {{ appt.badge_class }}">
+                                        {{ appt.status_label }}
+                                    </span>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        {% else %}
+                            <tr>
+                                <td colspan="5">No past appointments yet.</td>
+                            </tr>
+                        {% endif %}
+                    </tbody>
+                </table>
+                <p class="table-note">
+                    Completed, cancelled or rescheduled visits in the past will appear here for your records.
+                </p>
             </div>
         </section>
     </main>

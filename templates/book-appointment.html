@@ -29,82 +29,103 @@
                 Schedule a visit for your pet with our clinic staff.
             </p>
 
-            <!-- Messages globaux -->
-            <div id="errorMessage" class="alert alert-danger {% if not error_message %}hidden{% endif %}">
-                {{ error_message or "" }}
-            </div>
-            <div id="successMessage" class="alert alert-success {% if not success_message %}hidden{% endif %}">
-                {{ success_message or "" }}
-            </div>
+            <!-- Si aucun pet, on bloque la prise de RDV -->
+            {% if not pets or pets|length == 0 %}
+                <div class="alert alert-danger">
+                    You don't have any pets registered yet. Please add a pet before booking an appointment.
+                </div>
+                <a href="{{ url_for('add_pet') }}" class="btn btn-primary btn-full">
+                    Add a Pet
+                </a>
+            {% else %}
 
-            <form id="bookAppointmentForm" class="auth-form" method="post" action="{{ url_for('book_appointment') }}">
-                <!-- Pet Name -->
-                <div class="form-group">
-                    <label for="pet_name">Pet Name</label>
-                    <input
-                        type="text"
-                        id="pet_name"
-                        name="pet_name"
-                        placeholder="Enter your pet's name"
-                        value="{{ form_data.get('pet_name', '') if form_data else '' }}"
-                        required
-                    >
-                    <span id="pet_nameError" class="form-error">
-                        {{ errors.get('pet_name','') if errors is defined else '' }}
-                    </span>
+                <!-- Messages globaux -->
+                <div id="errorMessage" class="alert alert-danger {% if not error_message %}hidden{% endif %}">
+                    {{ error_message or "" }}
+                </div>
+                <div id="successMessage" class="alert alert-success {% if not success_message %}hidden{% endif %}">
+                    {{ success_message or "" }}
                 </div>
 
-                <!-- Date -->
-                <div class="form-group">
-                    <label for="appointment_date">Appointment Date</label>
-                    <input
-                        type="date"
-                        id="appointment_date"
-                        name="appointment_date"
-                        min="{{ today_str }}"
-                        value="{{ form_data.get('appointment_date', '') if form_data else '' }}"
-                        required
-                    >
-                    <span id="appointment_dateError" class="form-error">
-                        {{ errors.get('appointment_date','') if errors is defined else '' }}
-                    </span>
-                </div>
+                <form id="bookAppointmentForm"
+                      class="auth-form"
+                      method="post"
+                      action="{{ url_for('book_appointment') }}">
 
-                <!-- Time -->
-                <div class="form-group">
-                    <label for="appointment_time">Appointment Time</label>
-                    <input
-                        type="time"
-                        id="appointment_time"
-                        name="appointment_time"
-                        value="{{ form_data.get('appointment_time', '') if form_data else '' }}"
-                        required
-                    >
-                    <span id="appointment_timeError" class="form-error">
-                        {{ errors.get('appointment_time','') if errors is defined else '' }}
-                    </span>
-                </div>
+                    <!-- Pet Selection -->
+                    <div class="form-group">
+                        <label for="pet_id">Select Pet</label>
+                        <select id="pet_id" name="pet_id" required>
+                            <option value="">Choose a pet</option>
+                            {% for pet in pets %}
+                                <option value="{{ pet.id }}"
+                                    {% if form_data.get('pet_id') and form_data.get('pet_id')|string == pet.id|string %}
+                                        selected
+                                    {% endif %}>
+                                    {{ pet.name }}
+                                    {% if pet.species %}
+                                        ({{ pet.species }})
+                                    {% endif %}
+                                </option>
+                            {% endfor %}
+                        </select>
+                        <span id="pet_idError" class="form-error">
+                            {{ errors.get('pet_id','') if errors is defined else '' }}
+                        </span>
+                    </div>
 
-                <!-- Reason -->
-                <div class="form-group">
-                    <label for="reason">Reason (optional)</label>
-                    <textarea
-                        id="reason"
-                        name="reason"
-                        rows="3"
-                        placeholder="Vaccination, checkup, follow-up, emergency..."
-                    >{{ form_data.get('reason', '') if form_data else '' }}</textarea>
-                    <span id="reasonError" class="form-error">
-                        {{ errors.get('reason','') if errors is defined else '' }}
-                    </span>
-                </div>
+                    <!-- Date -->
+                    <div class="form-group">
+                        <label for="appointment_date">Appointment Date</label>
+                        <input
+                            type="date"
+                            id="appointment_date"
+                            name="appointment_date"
+                            min="{{ today_str }}"
+                            value="{{ form_data.get('appointment_date', '') if form_data else '' }}"
+                            required
+                        >
+                        <span id="appointment_dateError" class="form-error">
+                            {{ errors.get('appointment_date','') if errors is defined else '' }}
+                        </span>
+                    </div>
 
-                <!-- Submit -->
-                <button type="submit" class="btn btn-primary btn-full">
-                    <span id="btnText">Book Appointment</span>
-                    <span id="btnLoading" class="hidden">Booking...</span>
-                </button>
-            </form>
+                    <!-- Time -->
+                    <div class="form-group">
+                        <label for="appointment_time">Appointment Time</label>
+                        <input
+                            type="time"
+                            id="appointment_time"
+                            name="appointment_time"
+                            value="{{ form_data.get('appointment_time', '') if form_data else '' }}"
+                            required
+                        >
+                        <span id="appointment_timeError" class="form-error">
+                            {{ errors.get('appointment_time','') if errors is defined else '' }}
+                        </span>
+                    </div>
+
+                    <!-- Reason -->
+                    <div class="form-group">
+                        <label for="reason">Reason (optional)</label>
+                        <textarea
+                            id="reason"
+                            name="reason"
+                            rows="3"
+                            placeholder="Vaccination, checkup, follow-up, emergency..."
+                        >{{ form_data.get('reason', '') if form_data else '' }}</textarea>
+                        <span id="reasonError" class="form-error">
+                            {{ errors.get('reason','') if errors is defined else '' }}
+                        </span>
+                    </div>
+
+                    <!-- Submit -->
+                    <button type="submit" class="btn btn-primary btn-full">
+                        <span id="btnText">Book Appointment</span>
+                        <span id="btnLoading" class="hidden">Booking...</span>
+                    </button>
+                </form>
+            {% endif %}
         </div>
     </main>
 

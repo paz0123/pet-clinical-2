@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Users Management - Pet Clinic</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/responsive.css') }}">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container">
+            <div class="logo">🐾 Pet Clinic</div>
+            <div class="nav-right">
+                <span class="user-badge">
+                    Admin: <strong>{{ user_name or 'System Admin' }}</strong>
+                </span>
+                <a href="{{ url_for('dashboard') }}" class="btn-back">← Back to Admin Dashboard</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Users Management -->
+    <main class="container dashboard-container">
+        <header class="dashboard-header">
+            <h1>Users Management</h1>
+            <p class="dashboard-subtitle">
+                View all users, their roles and approval status. You can update roles and approve staff accounts.
+            </p>
+        </header>
+
+        <section class="dashboard-section">
+            <h2>All Users</h2>
+
+            <!-- Filtres -->
+            <form method="get" class="filter-bar">
+                <div class="filter-group">
+                    <label for="role_filter">Role:</label>
+                    <select id="role_filter" name="role_filter">
+                        <option value="all" {% if role_filter == 'all' %}selected{% endif %}>All</option>
+                        <option value="pet_owner" {% if role_filter == 'pet_owner' %}selected{% endif %}>Pet Owner</option>
+                        <option value="clinic_staff" {% if role_filter == 'clinic_staff' %}selected{% endif %}>Clinic Staff</option>
+                        <option value="admin" {% if role_filter == 'admin' %}selected{% endif %}>Admin</option>
+                    </select>
+                </div>
+
+                <div class="filter-group">
+                    <label for="approval_filter">Approval:</label>
+                    <select id="approval_filter" name="approval_filter">
+                        <option value="all" {% if approval_filter == 'all' %}selected{% endif %}>All</option>
+                        <option value="approved" {% if approval_filter == 'approved' %}selected{% endif %}>Approved</option>
+                        <option value="pending" {% if approval_filter == 'pending' %}selected{% endif %}>Pending</option>
+                    </select>
+                </div>
+
+                <button type="submit" class="btn-table btn-small">
+                    Apply Filters
+                </button>
+            </form>
+
+            <div class="dashboard-table-wrapper">
+                <table class="dashboard-table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Full Name</th>
+                            <th>Email</th>
+                            <th>Role</th>
+                            <th>Approved</th>
+                            <th>Created At</th>
+                            <th>Change Role</th>
+                            <th>Staff Approval</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% if all_users and all_users|length > 0 %}
+                            {% for user in all_users %}
+                            <tr>
+                                <td>{{ user.id }}</td>
+                                <td>{{ user.full_name }}</td>
+                                <td>{{ user.email }}</td>
+                                <td>{{ user.role }}</td>
+                                <td>
+                                    {% if user.role == 'clinic_staff' %}
+                                        {% if user.is_approved %}
+                                            <span class="badge badge-confirmed">Approved</span>
+                                        {% else %}
+                                            <span class="badge badge-pending">Pending</span>
+                                        {% endif %}
+                                    {% else %}
+                                        <span class="badge badge-confirmed">N/A</span>
+                                    {% endif %}
+                                </td>
+                                <td>{{ user.created_at }}</td>
+                                <td>
+                                    <form method="post" action="{{ url_for('update_user_role', user_id=user.id) }}">
+                                        <select name="role" class="role-select">
+                                            <option value="pet_owner" {% if user.role == 'pet_owner' %}selected{% endif %}>Pet Owner</option>
+                                            <option value="clinic_staff" {% if user.role == 'clinic_staff' %}selected{% endif %}>Clinic Staff</option>
+                                            <option value="admin" {% if user.role == 'admin' %}selected{% endif %}>Admin</option>
+                                        </select>
+                                        <button type="submit" class="btn-table btn-small" style="margin-top: 0.3rem;">
+                                            Update
+                                        </button>
+                                    </form>
+                                </td>
+                                <td>
+                                    {% if user.role == 'clinic_staff' %}
+                                        {% if not user.is_approved %}
+                                            <form method="post" action="{{ url_for('approve_staff', user_id=user.id) }}" style="display:inline-block;">
+                                                <button type="submit" class="btn-table btn-small">Approve</button>
+                                            </form>
+                                            <form method="post" action="{{ url_for('reject_staff', user_id=user.id) }}" style="display:inline-block; margin-left: 0.25rem;">
+                                                <button type="submit" class="btn-table btn-small">Reject</button>
+                                            </form>
+                                        {% else %}
+                                            <span class="badge badge-confirmed">Already Approved</span>
+                                        {% endif %}
+                                    {% else %}
+                                        <span class="badge badge-confirmed">N/A</span>
+                                    {% endif %}
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        {% else %}
+                            <tr>
+                                <td colspan="8">No users found.</td>
+                            </tr>
+                        {% endif %}
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2025 Pet Clinic. All rights reserved.</p>
+    </footer>
+</body>
+</html>

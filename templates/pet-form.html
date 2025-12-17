@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>
+        {% if mode == 'edit' %}Edit Pet{% else %}Add New Pet{% endif %} - Pet Clinic
+    </title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/responsive.css') }}">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container">
+            <div class="logo">🐾 Pet Clinic</div>
+            <div class="nav-right">
+                <span class="user-badge">
+                    Pet Owner: <strong>{{ user_name or 'Pet Owner' }}</strong>
+                </span>
+                <a href="{{ url_for('my_pets') }}" class="btn-back">← Back to My Pets</a>
+            </div>
+        </div>
+    </nav>
+
+    <main class="container auth-container">
+        <div class="auth-box">
+            <h1>
+                {% if mode == 'edit' %}Edit Pet{% else %}Add New Pet{% endif %}
+            </h1>
+            <p class="auth-subtitle">
+                {% if mode == 'edit' %}
+                    Update your pet's information.
+                {% else %}
+                    Enter your pet's basic information.
+                {% endif %}
+            </p>
+
+            <!-- Messages globaux -->
+            <div id="errorMessage" class="alert alert-danger {% if not error_message %}hidden{% endif %}">
+                {{ error_message or "" }}
+            </div>
+            <div id="successMessage" class="alert alert-success {% if not success_message %}hidden{% endif %}">
+                {{ success_message or "" }}
+            </div>
+
+            <form class="auth-form" method="post"
+                  action="{% if mode == 'edit' %}{{ url_for('edit_pet', pet_id=pet_id) }}{% else %}{{ url_for('add_pet') }}{% endif %}">
+                <!-- Name -->
+                <div class="form-group">
+                    <label for="name">Pet Name</label>
+                    <input
+                        type="text"
+                        id="name"
+                        name="name"
+                        value="{{ form_data.get('name','') if form_data else '' }}"
+                        placeholder="Enter your pet's name"
+                        required
+                    >
+                    <span id="nameError" class="form-error">
+                        {{ errors.get('name','') if errors is defined else '' }}
+                    </span>
+                </div>
+
+                <!-- Species -->
+                <div class="form-group">
+                    <label for="species">Species</label>
+                    <input
+                        type="text"
+                        id="species"
+                        name="species"
+                        value="{{ form_data.get('species','') if form_data else '' }}"
+                        placeholder="e.g., Dog, Cat"
+                    >
+                    <span id="speciesError" class="form-error">
+                        {{ errors.get('species','') if errors is defined else '' }}
+                    </span>
+                </div>
+
+                <!-- Breed -->
+                <div class="form-group">
+                    <label for="breed">Breed</label>
+                    <input
+                        type="text"
+                        id="breed"
+                        name="breed"
+                        value="{{ form_data.get('breed','') if form_data else '' }}"
+                        placeholder="e.g., Golden Retriever, Persian"
+                    >
+                    <span id="breedError" class="form-error">
+                        {{ errors.get('breed','') if errors is defined else '' }}
+                    </span>
+                </div>
+
+                <!-- Age -->
+                <div class="form-group">
+                    <label for="age">Age (years)</label>
+                    <input
+                        type="number"
+                        id="age"
+                        name="age"
+                        min="0"
+                        value="{{ form_data.get('age','') if form_data else '' }}"
+                        placeholder="e.g., 3"
+                    >
+                    <span id="ageError" class="form-error">
+                        {{ errors.get('age','') if errors is defined else '' }}
+                    </span>
+                </div>
+
+                <!-- Sex -->
+                <div class="form-group">
+                    <label for="sex">Sex</label>
+                    <select id="sex" name="sex">
+                        <option value="">Select</option>
+                        <option value="Male" {% if form_data.get('sex') == 'Male' %}selected{% endif %}>Male</option>
+                        <option value="Female" {% if form_data.get('sex') == 'Female' %}selected{% endif %}>Female</option>
+                        <option value="Other" {% if form_data.get('sex') == 'Other' %}selected{% endif %}>Other</option>
+                    </select>
+                    <span id="sexError" class="form-error">
+                        {{ errors.get('sex','') if errors is defined else '' }}
+                    </span>
+                </div>
+
+                <!-- Notes -->
+                <div class="form-group">
+                    <label for="notes">Notes (optional)</label>
+                    <textarea
+                        id="notes"
+                        name="notes"
+                        rows="3"
+                        placeholder="Any health notes, temperament info, allergies..."
+                    >{{ form_data.get('notes','') if form_data else '' }}</textarea>
+                    <span id="notesError" class="form-error">
+                        {{ errors.get('notes','') if errors is defined else '' }}
+                    </span>
+                </div>
+
+                <!-- Submit -->
+                <button type="submit" class="btn btn-primary btn-full">
+                    {% if mode == 'edit' %}Save Changes{% else %}Save Pet{% endif %}
+                </button>
+            </form>
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 Pet Clinic. All rights reserved.</p>
+    </footer>
+</body>
+</html>

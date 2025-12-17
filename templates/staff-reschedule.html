@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reschedule Appointment - Pet Clinic</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/responsive.css') }}">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container">
+            <div class="logo">🐾 Pet Clinic</div>
+            <div class="nav-right">
+                <span class="user-badge">
+                    Staff: <strong>{{ user_name or 'Clinic Staff' }}</strong>
+                </span>
+                <a href="{{ url_for('staff_dashboard') }}" class="btn-back">← Back to Dashboard</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Reschedule Form -->
+    <main class="container auth-container">
+        <div class="auth-box">
+            <h1>Reschedule Appointment</h1>
+            <p class="auth-subtitle">
+                Update the date and time for this appointment.
+            </p>
+
+            <!-- Infos sur le rendez-vous -->
+            <div class="alert">
+                <strong>Pet:</strong> {{ appointment.pet_name }}<br>
+                <strong>Owner:</strong> {{ appointment.owner_name }}<br>
+                <strong>Current date/time:</strong>
+                {{ appointment.appointment_date }} at {{ appointment.appointment_time }}
+            </div>
+
+            <!-- Messages globaux -->
+            <div id="errorMessage" class="alert alert-danger {% if not error_message %}hidden{% endif %}">
+                {{ error_message or "" }}
+            </div>
+            <div id="successMessage" class="alert alert-success {% if not success_message %}hidden{% endif %}">
+                {{ success_message or "" }}
+            </div>
+
+            <form id="rescheduleForm"
+                  class="auth-form"
+                  method="post"
+                  action="{{ url_for('reschedule_appointment', appointment_id=appointment.id) }}">
+
+                <!-- New Date -->
+                <div class="form-group">
+                    <label for="appointment_date">New Date</label>
+                    <input
+                        type="date"
+                        id="appointment_date"
+                        name="appointment_date"
+                        min="{{ today_str }}"
+                        value="{{ form_data.get('appointment_date', '') if form_data else '' }}"
+                        required
+                    >
+                    <span id="appointment_dateError" class="form-error">
+                        {{ errors.get('appointment_date','') if errors is defined else '' }}
+                    </span>
+                </div>
+
+                <!-- New Time -->
+                <div class="form-group">
+                    <label for="appointment_time">New Time</label>
+                    <input
+                        type="time"
+                        id="appointment_time"
+                        name="appointment_time"
+                        value="{{ form_data.get('appointment_time', '') if form_data else '' }}"
+                        required
+                    >
+                    <span id="appointment_timeError" class="form-error">
+                        {{ errors.get('appointment_time','') if errors is defined else '' }}
+                    </span>
+                </div>
+
+                <!-- Reason -->
+                <div class="form-group">
+                    <label for="reason">Reason (optional)</label>
+                    <textarea
+                        id="reason"
+                        name="reason"
+                        rows="3"
+                        placeholder="Update the reason if necessary..."
+                    >{{ form_data.get('reason', '') if form_data else '' }}</textarea>
+                    <span id="reasonError" class="form-error">
+                        {{ errors.get('reason','') if errors is defined else '' }}
+                    </span>
+                </div>
+
+                <!-- Submit -->
+                <button type="submit" class="btn btn-primary btn-full">
+                    <span id="btnText">Save Changes</span>
+                    <span id="btnLoading" class="hidden">Saving...</span>
+                </button>
+            </form>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2025 Pet Clinic. All rights reserved.</p>
+    </footer>
+</body>
+</html>

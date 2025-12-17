@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Invoices - Pet Clinic</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/responsive.css') }}">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container">
+            <div class="logo">🐾 Pet Clinic</div>
+            <div class="nav-right">
+                <span class="user-badge">
+                    Pet Owner: <strong>{{ user_name or 'Pet Owner' }}</strong>
+                </span>
+                <a href="{{ url_for('pet_owner_dashboard') }}" class="btn-back">← Back to Dashboard</a>
+            </div>
+        </div>
+    </nav>
+
+    <main class="container dashboard-container">
+        <header class="dashboard-header">
+            <h1>My Invoices</h1>
+            <p class="dashboard-subtitle">
+                View your clinic invoices and payment status.
+            </p>
+        </header>
+
+        <section class="dashboard-section">
+            <div class="dashboard-table-wrapper">
+                <table class="dashboard-table">
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Pet</th>
+                            <th>Amount</th>
+                            <th>Status</th>
+                            <th>Paid At</th>
+                            <th>Notes</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% if invoices and invoices|length > 0 %}
+                            {% for inv in invoices %}
+                            <tr class="{% if inv.status == 'cancelled' %}appt-cancelled{% endif %}">
+                                <td>{{ inv.issued_at }}</td>
+                                <td>{{ inv.pet_name or '-' }}</td>
+                                <td>$ {{ "%.2f"|format(inv.total_amount) }}</td>
+                                <td>
+                                    <span class="badge
+                                        {% if inv.status == 'paid' %}badge-confirmed
+                                        {% elif inv.status == 'unpaid' %}badge-pending
+                                        {% elif inv.status == 'cancelled' %}badge-cancelled
+                                        {% endif %}
+                                    ">
+                                        {{ inv.status|capitalize }}
+                                    </span>
+                                </td>
+                                <td>{{ inv.paid_at or '-' }}</td>
+                                <td>{{ inv.notes or '-' }}</td>
+                            </tr>
+                            {% endfor %}
+                        {% else %}
+                            <tr>
+                                <td colspan="6">You have no invoices yet.</td>
+                            </tr>
+                        {% endif %}
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 Pet Clinic. All rights reserved.</p>
+    </footer>
+</body>
+</html>

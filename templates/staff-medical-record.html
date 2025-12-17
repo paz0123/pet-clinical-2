@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Medical Record - Pet Clinic</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/responsive.css') }}">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container">
+            <div class="logo">🐾 Pet Clinic</div>
+            <div class="nav-right">
+                <span class="user-badge">
+                    Staff: <strong>{{ user_name or 'Clinic Staff' }}</strong>
+                </span>
+                <a href="{{ url_for('staff_dashboard') }}" class="btn-back">← Back to Dashboard</a>
+            </div>
+        </div>
+    </nav>
+
+    <main class="container auth-container">
+        <div class="auth-box">
+            <h1>Create Medical Record</h1>
+            <p class="auth-subtitle">
+                Record clinical information for this visit.
+            </p>
+
+            <div class="alert">
+                <strong>Pet:</strong> {{ appointment.pet_name }}<br>
+                <strong>Owner:</strong> {{ appointment.owner_name }}<br>
+                <strong>Appointment:</strong> {{ appointment.appointment_date }} at {{ appointment.appointment_time }}<br>
+                <strong>Status:</strong> {{ appointment.status|capitalize }}
+            </div>
+
+            <!-- Messages globaux -->
+            <div id="errorMessage" class="alert alert-danger {% if not error_message %}hidden{% endif %}">
+                {{ error_message or "" }}
+            </div>
+            <div id="successMessage" class="alert alert-success {% if not success_message %}hidden{% endif %}">
+                {{ success_message or "" }}
+            </div>
+
+            <form method="post" class="auth-form"
+                  action="{{ url_for('create_medical_record', appointment_id=appointment.id) }}">
+                <!-- Weight -->
+                <div class="form-group">
+                    <label for="weight">Weight (kg)</label>
+                    <input
+                        type="number"
+                        step="0.01"
+                        id="weight"
+                        name="weight"
+                        value="{{ form_data.get('weight','') if form_data else '' }}"
+                        placeholder="e.g., 5.4"
+                    >
+                    <span id="weightError" class="form-error">
+                        {{ errors.get('weight','') if errors is defined else '' }}
+                    </span>
+                </div>
+
+                <!-- Temperature -->
+                <div class="form-group">
+                    <label for="temperature">Temperature (°C)</label>
+                    <input
+                        type="number"
+                        step="0.1"
+                        id="temperature"
+                        name="temperature"
+                        value="{{ form_data.get('temperature','') if form_data else '' }}"
+                        placeholder="e.g., 38.5"
+                    >
+                    <span id="temperatureError" class="form-error">
+                        {{ errors.get('temperature','') if errors is defined else '' }}
+                    </span>
+                </div>
+
+                <!-- Diagnosis -->
+                <div class="form-group">
+                    <label for="diagnosis">Diagnosis</label>
+                    <textarea
+                        id="diagnosis"
+                        name="diagnosis"
+                        rows="3"
+                        placeholder="Describe the diagnosis..."
+                        required
+                    >{{ form_data.get('diagnosis','') if form_data else '' }}</textarea>
+                    <span id="diagnosisError" class="form-error">
+                        {{ errors.get('diagnosis','') if errors is defined else '' }}
+                    </span>
+                </div>
+
+                <!-- Notes -->
+                <div class="form-group">
+                    <label for="notes">Notes (optional)</label>
+                    <textarea
+                        id="notes"
+                        name="notes"
+                        rows="3"
+                        placeholder="Additional clinical notes..."
+                    >{{ form_data.get('notes','') if form_data else '' }}</textarea>
+                    <span id="notesError" class="form-error">
+                        {{ errors.get('notes','') if errors is defined else '' }}
+                    </span>
+                </div>
+
+                <button type="submit" class="btn btn-primary btn-full">
+                    Save Medical Record
+                </button>
+            </form>
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 Pet Clinic. All rights reserved.</p>
+    </footer>
+</body>
+</html>

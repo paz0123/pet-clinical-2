@@ -43,8 +43,8 @@ body {
 .logo img {
     width: 120px;
     border: 1px solid blueviolet;
-    padding:  0 24px;
-    margin:  0 20px;
+    padding: 0 24px;
+    margin: 0 20px;
 }
 
 .nav-links {
@@ -83,6 +83,23 @@ body {
     opacity: 0.8;
 }
 
+/* Bouton "back" (Back to Home / Dashboard / Logout etc.) */
+.btn-back {
+    padding: 6px 14px;
+    border-radius: 999px;
+    border: 1px solid #ddd;
+    background-color: #ffffff;
+    text-decoration: none;
+    font-size: 0.85rem;
+    color: #444;
+    transition: 0.2s ease;
+}
+
+.btn-back:hover {
+    background-color: #f5f5f5;
+    border-color: #ccc;
+}
+
 /* ---------------------------
    HERO SECTION
 ---------------------------- */
@@ -96,14 +113,16 @@ body {
     border-bottom-left-radius: 60px;
     border-bottom-right-radius: 60px;
 }
-img{
+
+/* Image principale de la hero */
+.hero-section img {
     width: 400px;
-    height: inherit;
+    height: auto;
     border-radius: 50px;
     border: 2px solid white;
-    box-shadow: #75cfff;
-    
+    box-shadow: 0 6px 16px rgba(0,0,0,0.15);
 }
+
 .hero-section h1 {
     font-size: 48px;
     font-weight: 700;
@@ -121,6 +140,8 @@ img{
     display: inline-block;
     text-decoration: none;
     transition: 0.3s;
+    border: none;
+    cursor: pointer;
 }
 
 .btn-primary {
@@ -129,6 +150,17 @@ img{
 }
 
 .btn-primary:hover {
+    background: #ffe2ed;
+}
+
+/* Bouton secondaire générique */
+.btn-secondary {
+    background: #ffffff;
+    color: #ff4e8a;
+    border: 1px solid #ff4e8a;
+}
+
+.btn-secondary:hover {
     background: #ffe2ed;
 }
 
@@ -186,20 +218,21 @@ img{
     text-decoration: underline;
 }
 
-.about p, .about ul {
+.about p,
+.about ul {
     max-width: 700px;
     margin: auto;
     text-align: center;
     line-height: 1.7;
-    list-style:circle ;
+    list-style: circle;
     border: 2px solid purple;
 }
-p strong{
+
+p strong {
     font-size: 30px;
-    font-family:  cursive;
+    font-family: cursive;
     text-decoration: underline green;
     color: green;
-    
 }
 
 /* ---------------------------
@@ -238,8 +271,9 @@ footer p {
     font-size: 14px;
     opacity: 0.8;
 }
+
 /* ---------------------------
-   AUTH PAGES (Login / Register)
+   AUTH PAGES (Login / Register / Book)
 ---------------------------- */
 
 .auth-container {
@@ -301,6 +335,24 @@ footer p {
     outline: none;
 }
 
+/* TEXTAREA */
+.form-group textarea {
+    width: 100%;
+    padding: 12px 15px;
+    border-radius: 12px;
+    border: 2px solid #e8e8e8;
+    font-size: 15px;
+    resize: vertical;
+    min-height: 80px;
+    transition: 0.3s ease;
+}
+
+.form-group textarea:focus {
+    border-color: #ff7ca3;
+    box-shadow: 0 0 0 4px #ff7ca33a;
+    outline: none;
+}
+
 /* CHECKBOX */
 .form-group.checkbox {
     display: flex;
@@ -312,7 +364,7 @@ footer p {
     margin: 0;
 }
 
-/* BUTTON */
+/* BUTTON plein largeur */
 .btn-full {
     width: 100%;
     padding: 14px;
@@ -345,6 +397,50 @@ footer p {
 .auth-footer .link:hover {
     text-decoration: underline;
 }
+
+/* ALERTS & ERREURS FORMULAIRES */
+.alert {
+    padding: 10px 14px;
+    border-radius: 8px;
+    margin-bottom: 15px;
+    font-size: 0.85rem;
+}
+
+.alert-danger {
+    background-color: #ffe6e6;
+    color: #b3261e;
+    border: 1px solid #f5b2b2;
+}
+
+.alert-success {
+    background-color: #e6f6ea;
+    color: #1e7b34;
+    border: 1px solid #a9e0b5;
+}
+
+.hidden {
+    display: none;
+}
+
+.form-error {
+    display: block;
+    margin-top: 4px;
+    font-size: 0.8rem;
+    color: #d32f2f;
+}
+
+/* Animation fadeIn */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(8px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
 /* ---------------------------
    RESPONSIVE DESIGN
 ---------------------------- */
@@ -359,7 +455,7 @@ footer p {
     }
 
     .nav-links {
-        display: none; /* Hidden by default — will replace with hamburger if you want */
+        display: none; /* Hidden by default — tu pourras mettre un burger plus tard */
         flex-direction: column;
         width: 100%;
         text-align: center;
@@ -390,8 +486,7 @@ footer p {
     }
 
     /* FIX LARGE IMAGE */
-    .hero-section img,
-    img {
+    .hero-section img {
         width: 100%;
         max-width: 260px;
         height: auto;
@@ -400,7 +495,8 @@ footer p {
     }
 
     /* ABOUT */
-    .about p, .about ul {
+    .about p,
+    .about ul {
         width: 90%;
         border: none;
         text-align: left;
@@ -418,9 +514,8 @@ footer p {
     }
 }
 
-/* Very Small Screens (iPhone SE, Galaxy A01, etc.) */
+/* Very Small Screens (iPhone SE, etc.) */
 @media (max-width: 480px) {
-
     .hero-section h1 {
         font-size: 26px;
     }
@@ -457,7 +552,7 @@ footer p {
     font-size: 0.95rem;
 }
 
-/* Navbar droite (badge user + logout) */
+/* Navbar droite (badge user + logout/back) */
 .navbar .nav-right {
     margin-left: auto;
     display: flex;
@@ -611,8 +706,13 @@ footer p {
     color: #2457c5;
 }
 
+.badge-cancelled {
+    background-color: #ffe6e6;
+    color: #b3261e;
+}
+
 /* ================================
-   NOTIFICATIONS STAFF
+   NOTIFICATIONS STAFF / ADMIN
    ================================ */
 
 .notification-list {
@@ -649,7 +749,8 @@ footer p {
         padding: 0.6rem 0.7rem;
     }
 }
-/* Admin Dashboard – metrics */
+
+/* Admin Dashboard – metrics & filtres */
 
 .metric-value {
     font-size: 1.6rem;
@@ -660,4 +761,48 @@ footer p {
 .metric-label {
     font-size: 0.8rem;
     color: #777;
+}
+
+.role-select {
+    font-size: 0.85rem;
+    padding: 0.25rem 0.4rem;
+    border-radius: 0.4rem;
+    border: 1px solid #ddd;
+}
+
+.filter-bar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    align-items: center;
+    margin-bottom: 1rem;
+    font-size: 0.9rem;
+}
+
+.filter-group {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+}
+
+.filter-group select {
+    font-size: 0.85rem;
+    padding: 0.25rem 0.4rem;
+    border-radius: 0.4rem;
+    border: 1px solid #ddd;
+}
+
+/* LINES */
+
+.appt-cancelled {
+    opacity: 0.6;
+    background-color: #fff5f5;
+}
+
+.appt-cancelled td {
+    text-decoration: line-through;
+}
+
+.appt-rescheduled {
+    background-color: #f5f7ff;
 }
